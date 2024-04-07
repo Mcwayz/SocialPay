@@ -5,8 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -45,6 +49,26 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
             startActivity(list_view);
             finish();
         });
+
+        EditText searchNrcEditText = findViewById(R.id.searchNrcEditText);
+        searchNrcEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String nrc = s.toString().trim();
+                if (!nrc.isEmpty()) {
+                    searchTransactionsByNrc(nrc);
+                } else {
+                    storeDataInArrays(dbHelper);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
     }
 
     void storeDataInArrays(DatabaseHelper dbHelper) {
@@ -91,4 +115,37 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
+
+    void searchTransactionsByNrc(String nrc) {
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        Cursor cursor = dbHelper.searchDataByNRC(nrc);
+        List<MyRecord> searchResults = new ArrayList<>();
+
+        if (!searchResults.isEmpty()) {
+            // Clear existing data
+            tvNRC.clear();
+            tvFullname.clear();
+            tvStatus.clear();
+            tvAccount.clear();
+            tvPhone.clear();
+            tvDistrict.clear();
+
+            // Populate arrays with search results
+            for (MyRecord record : searchResults) {
+                tvNRC.add(record.getNrc());
+                tvFullname.add(record.getFullName());
+                tvStatus.add(record.getStatus());
+                tvAccount.add(record.getAccountNumber());
+                tvPhone.add(record.getPhoneNumber());
+                tvDistrict.add(record.getDistrict());
+            }
+
+            // Notify adapter about the data change
+            customAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "No matching transactions found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }
