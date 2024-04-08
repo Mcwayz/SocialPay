@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +12,7 @@ import com.example.socialct.R;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private Button btn_verify;
+    private Button btn_verify, no_match;
     private ImageView imgBack;
     private String NRC, Fullname, Status, Account, Phone, District;
     private TextView tvNRC, tvFullname, tvStatus, tvAccount, tvPhone, tvDistrict, tvStatusN;
@@ -23,16 +22,18 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        // Initialize TextViews
+        // Initialize
+
         tvNRC = findViewById(R.id.tv_nrc_no);
+        no_match = findViewById(R.id.btn_back);
         tvStatus = findViewById(R.id.tv_status);
         tvStatusN = findViewById(R.id.tv_statusN);
+        btn_verify = findViewById(R.id.btn_print);
         tvPhone = findViewById(R.id.tv_d_phone_no);
         tvFullname = findViewById(R.id.tv_fullname);
         tvAccount = findViewById(R.id.tv_account_no);
         imgBack = findViewById(R.id.img_back_ticket);
         tvDistrict = findViewById(R.id.tv_disrict_name);
-        btn_verify = findViewById(R.id.btn_print);
 
         // Get Data From Intent
 
@@ -43,11 +44,9 @@ public class DetailsActivity extends AppCompatActivity {
         Fullname = getIntent().getStringExtra("fullname");
         District = getIntent().getStringExtra("district");
 
-        imgBack.setOnClickListener(v -> {
-            Intent i = new Intent(DetailsActivity.this, HistoryActivity.class);
-            startActivity(i);
-            finish();
-        });
+        imgBack.setOnClickListener(v -> goBack());
+
+        no_match.setOnClickListener(view -> goBack());
 
         btn_verify.setOnClickListener(view -> {
             // Update Function
@@ -77,5 +76,11 @@ public class DetailsActivity extends AppCompatActivity {
         tvAccount.setText(Account);
         tvPhone.setText(Phone);
         tvDistrict.setText(District);
+    }
+
+    private void goBack(){
+        Intent i = new Intent(DetailsActivity.this, HistoryActivity.class);
+        startActivity(i);
+        finish();
     }
 }

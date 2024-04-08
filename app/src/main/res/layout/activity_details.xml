@@ -344,27 +344,95 @@
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
+
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_6"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="160dp"
+                android:layout_height="120dp"
+                android:layout_below="@id/linear_6"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_person" />
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="160dp"
+                android:layout_height="120dp"
+                android:layout_below="@id/linear_6"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_person" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_7"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+
+            <!-- Button 1 -->
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:id="@+id/btn_back"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/buttons"
+                android:padding="10dp"
+                android:text="Not Matching"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_weight="1" />
+
+            <!-- Button 2 -->
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:id="@+id/btn_print"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/buttons"
+                android:padding="10dp"
+                android:text="Matching"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
 
 
     </RelativeLayout>
 
-    <Button
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:id="@+id/btn_print"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:background="@drawable/buttons"
-        android:padding="10dp"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:text="Verify Details"
-        android:textColor="@color/white"
-        />
+
 
 
 </LinearLayout>

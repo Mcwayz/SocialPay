@@ -118,40 +118,9 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
         super.onPointerCaptureChanged(hasCapture);
     }
 
-//    void searchTransactionsByNrc(String nrc) {
-//        DatabaseHelper dbHelper = new DatabaseHelper(this);
-//        Cursor cursor = dbHelper.searchDataByNRC(nrc);
-//        List<MyRecord> searchResults = new ArrayList<>();
-//
-//        if (!searchResults.isEmpty()) {
-//            // Clear existing data
-//            tvNRC.clear();
-//            tvFullname.clear();
-//            tvStatus.clear();
-//            tvAccount.clear();
-//            tvPhone.clear();
-//            tvDistrict.clear();
-//
-//            // Populate arrays with search results
-//            for (MyRecord record : searchResults) {
-//                tvNRC.add(record.getNrc());
-//                tvFullname.add(record.getFullName());
-//                tvStatus.add(record.getStatus());
-//                tvAccount.add(record.getAccountNumber());
-//                tvPhone.add(record.getPhoneNumber());
-//                tvDistrict.add(record.getDistrict());
-//            }
-//
-//            // Notify adapter about the data change
-//            customAdapter = new CustomAdapter(this, tvNRC, tvFullname, tvStatus, tvAccount, tvPhone, tvDistrict, this);
-//            recyclerView.setAdapter(customAdapter);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(HistoryActivity.this));
-//        } else {
-//            Toast.makeText(this, "No matching records found!", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
-    void searchTransactionsByNrc(String nrc) {
+
+    private void searchTransactionsByNrc(String nrc) {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         Cursor cursor = dbHelper.searchDataByNRC(nrc);
         List<MyRecord> searchResults = new ArrayList<>();
