@@ -110,6 +110,14 @@ public class TransactActivity extends AppCompatActivity {
     }
 
 
+    // Save / Update DB
+
+    private void SaveTransaction(){
+
+
+    }
+
+
     // Print Receipt
 
     private void printReceipt(String copy) {
@@ -155,7 +163,7 @@ public class TransactActivity extends AppCompatActivity {
             System.out.println("IsHavePaper = true\n");
 
             printer.setAlignStyle(PRINT_STYLE_CENTER);
-            Bitmap originalBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.logo);
+            Bitmap originalBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.profile);
             int desiredWidth = 200;
             int desiredHeight = 163;
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, desiredWidth, desiredHeight, false);
@@ -220,9 +228,15 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("Withdraw Amount");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
             printer.printStr("ZMW "+ZMW_Amount);
-
             printer.printStr("\n");
 
+            //Single line print left justified, right justified
+            printer.setAlignStyle(PRINT_STYLE_LEFT);
+            printer.printStr("Transaction Status");
+            printer.setAlignStyle(PRINT_STYLE_RIGHT);
+            printer.printStr(Status);
+
+            printer.printStr("\n");
 
             printer.printStr("\n");
             printer.setAlignStyle(PRINT_STYLE_CENTER);
