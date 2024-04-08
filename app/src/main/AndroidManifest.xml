@@ -13,6 +13,12 @@
         android:theme="@style/Theme.SocialCT"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.ScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.CaptureActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.DetailsActivity"
             android:exported="false" />
         <activity

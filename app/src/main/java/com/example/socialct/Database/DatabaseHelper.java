@@ -15,14 +15,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "socialct_db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "socialct_tbl";
-    private static final String COLUMN_NRC = "nrc";
-    private static final String COLUMN_FULLNAME = "fullname";
-    private static final String COLUMN_CUSTOMER_NUMBER = "customer_number";
-    private static final String COLUMN_PHONE_NUMBER = "phone_number";
-    private static final String COLUMN_INSTITUTION = "institution";
-    private static final String COLUMN_ACCOUNT_NUMBER = "account_number";
-    private static final String COLUMN_DISTRICT = "district";
-    private static final String COLUMN_STATUS = "status";
+    public static final String COLUMN_NRC = "nrc";
+    public static final String COLUMN_FULLNAME = "fullname";
+    public static final String COLUMN_CUSTOMER_NUMBER = "customer_number";
+    public static final String COLUMN_PHONE_NUMBER = "phone_number";
+    public static final String COLUMN_INSTITUTION = "institution";
+    public static final String COLUMN_ACCOUNT_NUMBER = "account_number";
+    public static final String COLUMN_DISTRICT = "district";
+    public static final String COLUMN_STATUS = "status";
 
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "(" +
@@ -113,6 +113,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
+    public boolean updateStatusToPaid(String nrc) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_STATUS, "Withdrawal"); // Set the status to "Paid"
+        // Update the status based on NRC
+        int rowsAffected = db.update(TABLE_NAME, values, COLUMN_NRC + " = ?", new String[]{nrc});
+        db.close();
+        // Check if the update was successful
+        return rowsAffected > 0;
+    }
     
 }
