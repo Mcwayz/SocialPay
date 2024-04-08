@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_back_ticket"
             android:layout_marginTop="45dp"
-            android:text="Person Details"
+            android:text="Customer Details"
             android:textColor="@color/blue"
             android:textAlignment="center"
             android:layout_marginLeft="30dp"
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:text="Status"
+                android:text="Account Balance"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -133,7 +133,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
 
             <TextView
@@ -146,7 +146,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -211,7 +211,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
 
             <TextView
@@ -224,7 +224,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -289,7 +289,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
 
             <TextView
@@ -302,7 +302,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -361,7 +361,7 @@
 
 
             <ImageView
-                android:id="@+id/image1"
+                android:id="@+id/nrc_front"
                 android:layout_width="160dp"
                 android:layout_height="120dp"
                 android:layout_below="@id/linear_6"
@@ -369,7 +369,7 @@
                 android:layout_marginTop="15dp"
                 android:src="@drawable/ic_person" />
             <ImageView
-                android:id="@+id/image2"
+                android:id="@+id/nrc_back"
                 android:layout_width="160dp"
                 android:layout_height="120dp"
                 android:layout_below="@id/linear_6"

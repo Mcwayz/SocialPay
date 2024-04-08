@@ -22,7 +22,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_INSTITUTION = "institution";
     public static final String COLUMN_ACCOUNT_NUMBER = "account_number";
     public static final String COLUMN_DISTRICT = "district";
+    public static final String COLUMN_ACCOUNT_BALANCE = "account_balance";
+    public static final String COLUMN_USER = "fullname";
+    public static final String COLUMN_IMAGE = "customer_img";
+    public static final String COLUMN_NRC_FRONT = "front_nrc";
+    public static final String COLUMN_NRC_BACK = "back_nrc";
     public static final String COLUMN_STATUS = "status";
+    public static final String COLUMN_TERMINAL_ID = "terminal_id";
+    public static final String COLUMN_DATE_ID = "date_time";
 
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "(" +

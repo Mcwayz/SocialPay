@@ -73,7 +73,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
 
     }
 
-    void storeDataInArrays(DatabaseHelper dbHelper) {
+    private void storeDataInArrays(DatabaseHelper dbHelper) {
         List<MyRecord> approvedRecords = dbHelper.getApprovedRecords();
         if (!approvedRecords.isEmpty()) {
             tvNRC = new ArrayList<>();
