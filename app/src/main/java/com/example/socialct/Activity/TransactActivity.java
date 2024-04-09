@@ -47,7 +47,7 @@ public class TransactActivity extends AppCompatActivity {
     private TextInputEditText Amount;
     private final Handler handler = new Handler();
     private DatabaseHelper Dbhelper;
-    private String NRC, Fullname, Status, Account, Phone, District, serialNumber, ZMW_Amount, AccountBalance;
+    private String NRC, Fullname, Status, Account, Phone, District, serialNumber, ZMW_Amount;
 
     public TransactActivity() {
     }
@@ -65,7 +65,7 @@ public class TransactActivity extends AppCompatActivity {
         Account = getIntent().getStringExtra("account");
         Fullname = getIntent().getStringExtra("fullname");
         District = getIntent().getStringExtra("district");
-        AccountBalance = getIntent().getStringExtra("account_balance");
+        // AccountBalance = getIntent().getStringExtra("account_balance");
         // CustomerImg = getIntent().getStringExtra("customer_img");
 
         // Initialize Database Helper

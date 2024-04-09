@@ -12,9 +12,9 @@ public class MyRecord {
     private String status;
     private String nrc_back;
     private String nrc_front;
-    double account_balance;
+    private String account_balance;
 
-    public MyRecord(String nrc, String fullName, String customerNumber, String phoneNumber, String institution, String accountNumber, String district, String status, String nrc_back, String nrc_front, double account_balance) {
+    public MyRecord(String nrc, String fullName, String customerNumber, String phoneNumber, String institution, String accountNumber, String district, String status, String nrc_back, String nrc_front, String account_balance) {
         this.nrc = nrc;
         this.fullName = fullName;
         this.customerNumber = customerNumber;
@@ -108,11 +108,11 @@ public class MyRecord {
         this.nrc_front = nrc_front;
     }
 
-    public double getAccount_balance() {
+    public String getAccount_balance() {
         return account_balance;
     }
 
-    public void setAccount_balance(double account_balance) {
+    public void setAccount_balance(String account_balance) {
         this.account_balance = account_balance;
     }
 }

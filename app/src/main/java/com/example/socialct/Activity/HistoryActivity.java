@@ -161,7 +161,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
                 int columnIndexNRCFront = cursor.getColumnIndex(COLUMN_NRC_FRONT);
                 String nrc_front = (columnIndexNRCFront != -1) ? cursor.getString(columnIndexNRCFront) : null;
                 int columnIndexAccountBalance = cursor.getColumnIndex(COLUMN_ACCOUNT_BALANCE);
-                double account_balance = (columnIndexAccountBalance != -1) ? Double.parseDouble(cursor.getString(columnIndexAccountBalance)) : null;
+                String account_balance = (columnIndexAccountBalance != -1) ? cursor.getString(columnIndexAccountBalance) : null;
                 MyRecord record = new MyRecord(recordNrc, fullName, customerNumber, phoneNumber, institution, accountNumber, district, status, nrc_back, nrc_front, account_balance);
                 searchResults.add(record);
             } while (cursor.moveToNext());
@@ -176,6 +176,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
             tvDistrict.clear();
             tvNRC_Bck.clear();
             tvNRC_Frt.clear();
+            tvAccountBalance.clear();
 
             // Populate arrays with search results
             for (MyRecord record : searchResults) {
@@ -187,7 +188,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
                 tvDistrict.add(record.getDistrict());
                 tvNRC_Bck.add(record.getNrc_back());
                 tvNRC_Frt.add(record.getNrc_front());
-                tvAccountBalance = new ArrayList<>();
+                tvAccountBalance.add(record.getAccount_balance());
             }
 
             // Notify adapter about the data change

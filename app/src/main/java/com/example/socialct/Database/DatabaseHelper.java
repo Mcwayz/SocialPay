@@ -142,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String status = cursor.getString(cursor.getColumnIndex(COLUMN_STATUS));
                     String nrc_front = cursor.getString(cursor.getColumnIndex(COLUMN_NRC_FRONT));
                     String nrc_back = cursor.getString(cursor.getColumnIndex(COLUMN_NRC_BACK));
-                    double account_balance = Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUMN_ACCOUNT_BALANCE)));
+                    String account_balance = cursor.getString(cursor.getColumnIndex(COLUMN_ACCOUNT_BALANCE));
                     MyRecord record = new MyRecord(nrc, fullName, customerNumber, phoneNumber, institution, accountNumber, district, status, nrc_back, nrc_front, account_balance);
                     approvedRecords.add(record);
                 } while (cursor.moveToNext());
