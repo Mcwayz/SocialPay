@@ -5,11 +5,19 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
+import android.widget.Toast;
 
 import com.example.socialct.Model.MyRecord;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "socialct_db";
@@ -134,8 +142,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String status = cursor.getString(cursor.getColumnIndex(COLUMN_STATUS));
                     String nrc_front = cursor.getString(cursor.getColumnIndex(COLUMN_NRC_FRONT));
                     String nrc_back = cursor.getString(cursor.getColumnIndex(COLUMN_NRC_BACK));
-
-                    MyRecord record = new MyRecord(nrc, fullName, customerNumber, phoneNumber, institution, accountNumber, district, status, nrc_back, nrc_front);
+                    double account_balance = Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUMN_ACCOUNT_BALANCE)));
+                    MyRecord record = new MyRecord(nrc, fullName, customerNumber, phoneNumber, institution, accountNumber, district, status, nrc_back, nrc_front, account_balance);
                     approvedRecords.add(record);
                 } while (cursor.moveToNext());
             }
@@ -151,16 +159,82 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return approvedRecords;
     }
 
-
-    public boolean updateStatusToPaid(String nrc) {
+    // function that updates the database record
+    public boolean updateTransactionDetails(String nrc, double withdrawAmount, String dateTime, String username, String terminalID) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_STATUS, "Withdrawal"); // Set the status to "Paid"
-        // Update the status based on NRC
-        int rowsAffected = db.update(TABLE_NAME, values, COLUMN_NRC + " = ?", new String[]{nrc});
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ACCOUNT_BALANCE + " FROM " + TABLE_NAME + " WHERE " + COLUMN_NRC + " = ?", new String[]{nrc});
+        if (cursor != null && cursor.moveToFirst()) {
+            int accountBalanceIndex = cursor.getColumnIndex(COLUMN_ACCOUNT_BALANCE);
+            if (accountBalanceIndex != -1) {
+                double accountBalance = cursor.getDouble(accountBalanceIndex);
+                cursor.close();
+                if (accountBalance >= withdrawAmount) {
+                    ContentValues values = new ContentValues();
+                    values.put(COLUMN_STATUS, "Withdrawal");
+                    values.put(COLUMN_WITHDRAW, withdrawAmount);
+                    values.put(COLUMN_DATE_ID, dateTime);
+                    values.put(COLUMN_USER, username);
+                    values.put(COLUMN_TERMINAL_ID, terminalID);
+                    int rowsAffected = db.update(TABLE_NAME, values, COLUMN_NRC + " = ?", new String[]{nrc});
+                    db.close();
+                    return rowsAffected > 0;
+                } else {
+                    db.close();
+                    return false;
+                }
+            } else {
+                cursor.close();
+                db.close();
+                return false;
+            }
+        } else {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+            return false;
+        }
+    }
+
+
+
+
+    // function that exports end of day records
+
+    public void exportRecordsToTxt(Context context) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String currentDate = dateFormat.format(calendar.getTime());
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_DATE_ID + " = ?", new String[]{currentDate});
+        if (cursor.getCount() > 0) {
+            File directory = new File(Environment.getExternalStorageDirectory().getPath() + "/MyApp");
+            directory.mkdirs();
+            File file = new File(directory, "records.txt");
+            try {
+                FileWriter writer = new FileWriter(file);
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    StringBuilder record = new StringBuilder();
+                    for (int i = 0; i < cursor.getColumnCount(); i++) {
+                        record.append(cursor.getString(i)).append(",");
+                    }
+                    record.append("\n");
+                    writer.write(record.toString());
+
+                    cursor.moveToNext();
+                }
+                writer.close();
+                Toast.makeText(context, "Records Exported", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Failed to Export Records", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(context, "No Records Found For The Current Day", Toast.LENGTH_SHORT).show();
+        }
+        cursor.close();
         db.close();
-        // Check if the update was successful
-        return rowsAffected > 0;
     }
     
 }

@@ -1,5 +1,6 @@
 package com.example.socialct.Activity;
 
+import static com.example.socialct.Database.DatabaseHelper.COLUMN_ACCOUNT_BALANCE;
 import static com.example.socialct.Database.DatabaseHelper.COLUMN_NRC_BACK;
 import static com.example.socialct.Database.DatabaseHelper.COLUMN_NRC_FRONT;
 import static com.example.socialct.Database.DatabaseHelper.COLUMN_STATUS;
@@ -37,7 +38,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
     private RecyclerView recyclerView;
     private CustomAdapter customAdapter;
 
-    private ArrayList<String> tvNRC, tvFullname, tvStatus, tvAccount, tvPhone, tvDistrict, tvNRC_Frt, tvNRC_Bck;
+    private ArrayList<String> tvNRC, tvFullname, tvStatus, tvAccount, tvPhone, tvDistrict, tvNRC_Frt, tvNRC_Bck, tvAccountBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
         tvDistrict = new ArrayList<>();
         tvNRC_Frt = new ArrayList<>();
         tvNRC_Bck = new ArrayList<>();
+        tvAccountBalance = new ArrayList<>();
         // Initialize RecyclerView
         search = findViewById(R.id.btn_filter);
         imgBack = findViewById(R.id.img_back_his);
@@ -118,6 +120,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
         intent.putExtra("district", tvDistrict.get(position));
         intent.putExtra("nrc_front", tvNRC_Frt.get(position));
         intent.putExtra("nrc_back", tvNRC_Bck.get(position));
+        intent.putExtra("account_balance", tvAccountBalance.get(position));
         startActivity(intent);
         finish();
     }
@@ -153,12 +156,13 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
                 String district = (columnIndexDistrict != -1) ? cursor.getString(columnIndexDistrict) : null;
                 int columnIndexStatus = cursor.getColumnIndex(COLUMN_STATUS);
                 String status = (columnIndexStatus != -1) ? cursor.getString(columnIndexStatus) : null;
-
                 int columnIndexNRCBack = cursor.getColumnIndex(COLUMN_NRC_BACK);
                 String nrc_back = (columnIndexNRCBack != -1) ? cursor.getString(columnIndexNRCBack) : null;
                 int columnIndexNRCFront = cursor.getColumnIndex(COLUMN_NRC_FRONT);
                 String nrc_front = (columnIndexNRCFront != -1) ? cursor.getString(columnIndexNRCFront) : null;
-                MyRecord record = new MyRecord(recordNrc, fullName, customerNumber, phoneNumber, institution, accountNumber, district, status, nrc_back, nrc_front);
+                int columnIndexAccountBalance = cursor.getColumnIndex(COLUMN_ACCOUNT_BALANCE);
+                double account_balance = (columnIndexAccountBalance != -1) ? Double.parseDouble(cursor.getString(columnIndexAccountBalance)) : null;
+                MyRecord record = new MyRecord(recordNrc, fullName, customerNumber, phoneNumber, institution, accountNumber, district, status, nrc_back, nrc_front, account_balance);
                 searchResults.add(record);
             } while (cursor.moveToNext());
             cursor.close();
@@ -183,6 +187,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
                 tvDistrict.add(record.getDistrict());
                 tvNRC_Bck.add(record.getNrc_back());
                 tvNRC_Frt.add(record.getNrc_front());
+                tvAccountBalance = new ArrayList<>();
             }
 
             // Notify adapter about the data change

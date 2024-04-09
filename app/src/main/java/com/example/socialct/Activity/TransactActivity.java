@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.socialct.Database.DatabaseHelper;
 import com.example.socialct.R;
 import com.ftpos.library.smartpos.device.Device;
 import com.ftpos.library.smartpos.printer.OnPrinterCallback;
@@ -29,7 +31,10 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.function.DoubleConsumer;
 
 public class TransactActivity extends AppCompatActivity {
 
@@ -41,7 +46,11 @@ public class TransactActivity extends AppCompatActivity {
     private Context mContext;
     private TextInputEditText Amount;
     private final Handler handler = new Handler();
-    private String NRC, Fullname, Status, Account, Phone, District, CustomerImg, serialNumber, ZMW_Amount;
+    private DatabaseHelper Dbhelper;
+    private String NRC, Fullname, Status, Account, Phone, District, serialNumber, ZMW_Amount, AccountBalance;
+
+    public TransactActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +65,13 @@ public class TransactActivity extends AppCompatActivity {
         Account = getIntent().getStringExtra("account");
         Fullname = getIntent().getStringExtra("fullname");
         District = getIntent().getStringExtra("district");
-        CustomerImg = getIntent().getStringExtra("customer_img");
+        AccountBalance = getIntent().getStringExtra("account_balance");
+        // CustomerImg = getIntent().getStringExtra("customer_img");
+
+        // Initialize Database Helper
+        Dbhelper = new DatabaseHelper(this);
+        mContext = this;
+
         Transact.setOnClickListener(view -> {
 
             // Complete Transaction
@@ -65,12 +80,11 @@ public class TransactActivity extends AppCompatActivity {
                 Toast.makeText(mContext, "Please Enter The Withdraw Amount", Toast.LENGTH_LONG).show();
             }else{
                 // Transact
-                Transact();
+                ZMW_Amount = Objects.requireNonNull(Amount.getText()).toString();
+                SaveTransaction(NRC, ZMW_Amount, serialNumber);
             }
         });
 
-        // Obtain the context
-        Context context = getApplicationContext();
         try {
             ServiceManager.bindPosServer(this, new OnServiceConnectCallback() {
                 @Override
@@ -105,21 +119,26 @@ public class TransactActivity extends AppCompatActivity {
 
     }
 
-    // Transact Function
-    private void Transact(){
-
+    // Save and Update DB
+    private void SaveTransaction(String NRC, String Amount, String TerminalID){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String dateTime = dateFormat.format(new Date());
+        String Username = "Mcwayz";
+        double withdraw =  Double.parseDouble(Amount);
+        boolean isUpdated = Dbhelper.updateTransactionDetails(NRC, withdraw, dateTime, Username, TerminalID);
+        if (isUpdated) {
+            printReceipt("<Customer Copy>");
+            // Add a 3-second delay before printing the agent copy
+            handler.postDelayed(() -> printReceipt("<Agent Copy>"), 3000);
+            Toast.makeText(this, "Transaction Details Updated Successfully", Toast.LENGTH_SHORT).show();
+            goBack();
+        } else {
+            Toast.makeText(this, "Failed to update transaction details", Toast.LENGTH_SHORT).show();
+            goBack();
+        }
     }
-
-
-    // Save / Update DB
-
-    private void SaveTransaction(String NRC, String Fullname, String Status, String Account, String Phone, String District, String SerialNumber, String Amount){
-
-    }
-
 
     // Print Receipt
-
     private void printReceipt(String copy) {
         try {
             int ret;
@@ -171,8 +190,8 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
             printer.printStr("__________________________________\n");
 
-
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Terminal ID");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
@@ -180,6 +199,7 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
 
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Customer's Name");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
@@ -187,6 +207,7 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
 
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Customer's Phone");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
@@ -194,14 +215,15 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
 
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Customer's NRC");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
             printer.printStr(NRC);
             printer.printStr("\n");
 
-
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Account No.");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
@@ -209,6 +231,7 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
 
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("District");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
@@ -216,14 +239,15 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
 
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("User");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
-            printer.printStr("iZyane");
+            printer.printStr("Mcwayz");
             printer.printStr("\n");
 
-
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Withdraw Amount");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
@@ -231,11 +255,11 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
 
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Transaction Status");
             printer.setAlignStyle(PRINT_STYLE_RIGHT);
             printer.printStr(Status);
-
             printer.printStr("\n");
 
             printer.printStr("\n");
@@ -244,6 +268,7 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
 
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Date");
             Calendar calendar = Calendar.getInstance();
@@ -254,6 +279,7 @@ public class TransactActivity extends AppCompatActivity {
             printer.printStr("\n");
 
             //Single line print left justified, right justified
+
             printer.setAlignStyle(PRINT_STYLE_LEFT);
             printer.printStr("Time");
             SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
@@ -274,9 +300,7 @@ public class TransactActivity extends AppCompatActivity {
                 System.out.println("getUsedPaperLenManage failed" + String.format(" errCode = 0x%x\n", ret));
                 // Toast.makeText(MomoActivity.this, "getUsedPaperLenManage failed" + String.format(" errCode = 0x%x\n", ret), Toast.LENGTH_LONG).show();
             }
-
             System.out.println("UsedPaperLenManage = " + ret + "mm \n");
-
             printer.print(new OnPrinterCallback() {
                 @Override
                 public void onSuccess() {
@@ -292,7 +316,6 @@ public class TransactActivity extends AppCompatActivity {
                     goBack();
                 }
             });
-
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Print Failed" + e + "\n");
@@ -301,12 +324,11 @@ public class TransactActivity extends AppCompatActivity {
         }
     }
 
+    // Go Back
     private void goBack(){
-        Intent i = new Intent(TransactActivity.this, HistoryActivity.class);
+        Intent i = new Intent(TransactActivity.this, HomeActivity.class);
         startActivity(i);
         finish();
     }
-
-
 
 }

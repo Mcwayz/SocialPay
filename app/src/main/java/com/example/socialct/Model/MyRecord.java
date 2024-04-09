@@ -10,12 +10,11 @@ public class MyRecord {
     private String accountNumber;
     private String district;
     private String status;
-
     private String nrc_back;
-
     private String nrc_front;
+    double account_balance;
 
-    public MyRecord(String nrc, String fullName, String customerNumber, String phoneNumber, String institution, String accountNumber, String district, String status, String nrc_back, String nrc_front) {
+    public MyRecord(String nrc, String fullName, String customerNumber, String phoneNumber, String institution, String accountNumber, String district, String status, String nrc_back, String nrc_front, double account_balance) {
         this.nrc = nrc;
         this.fullName = fullName;
         this.customerNumber = customerNumber;
@@ -26,6 +25,7 @@ public class MyRecord {
         this.status = status;
         this.nrc_back = nrc_back;
         this.nrc_front = nrc_front;
+        this.account_balance = account_balance;
     }
 
     public String getNrc() {
@@ -106,5 +106,13 @@ public class MyRecord {
 
     public void setNrc_front(String nrc_front) {
         this.nrc_front = nrc_front;
+    }
+
+    public double getAccount_balance() {
+        return account_balance;
+    }
+
+    public void setAccount_balance(double account_balance) {
+        this.account_balance = account_balance;
     }
 }

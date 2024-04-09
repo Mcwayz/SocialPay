@@ -17,7 +17,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private Button btn_verify, no_match;
     private ImageView imgBack, NRC_FRONT, NRC_BACK;
-    private String NRC, Fullname, Status, Account, Phone, District, NRC_Frt, NRC_Bck;
+    private String NRC, Fullname, Status, Account, Phone, District, NRC_Frt, NRC_Bck, AccountBalance;
     private TextView tvNRC, tvFullname, tvStatus, tvAccount, tvPhone, tvDistrict, tvStatusN;
 
     @Override
@@ -50,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
         Fullname = getIntent().getStringExtra("fullname");
         District = getIntent().getStringExtra("district");
         NRC_Frt = getIntent().getStringExtra("nrc_front");
-
+        AccountBalance = getIntent().getStringExtra("account_balance");
         imgBack.setOnClickListener(v -> goBack());
 
         no_match.setOnClickListener(view -> goBack());
@@ -59,13 +59,14 @@ public class DetailsActivity extends AppCompatActivity {
             // Update Function
             // String nrc = tvNRC.getText().toString().trim();
             // boolean isUpdated = dbHelper.updateStatusToPaid(nrc);
-            Intent intent = new Intent(DetailsActivity.this, CaptureActivity.class);
+            Intent intent = new Intent(DetailsActivity.this, TransactActivity.class);
             intent.putExtra("nrc", tvNRC.getText());
             intent.putExtra("fullname", tvFullname.getText());
             intent.putExtra("status", tvStatus.getText());
             intent.putExtra("account", tvAccount.getText());
             intent.putExtra("phone", tvPhone.getText());
             intent.putExtra("district", tvDistrict.getText());
+            intent.putExtra("account_balance", AccountBalance);
             startActivity(intent);
             finish();
         });
@@ -78,7 +79,7 @@ public class DetailsActivity extends AppCompatActivity {
         // Set data to TextViews
         tvNRC.setText(NRC);
         tvFullname.setText(Fullname);
-        tvStatus.setText(Status);
+        tvStatus.setText(AccountBalance);
         tvStatusN.setText(Status);
         tvAccount.setText(Account);
         tvPhone.setText(Phone);
