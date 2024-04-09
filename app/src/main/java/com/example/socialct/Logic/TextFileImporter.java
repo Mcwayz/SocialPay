@@ -29,12 +29,21 @@ public class TextFileImporter {
                 String institution = data[4].trim();
                 String accountNumber = data[5].trim();
                 String district = data[6].trim();
-                String status = data[7].trim();
-
+                String accountBalance = data[7].trim();
+                String user = data[8].trim();
+                String image = data[9].trim();
+                String nrcFront = data[10].trim();
+                String nrcBack = data[11].trim();
+                String status = data[12].trim();
+                String terminalId = data[13].trim();
+                String dateTime = data[14].trim();
+                String amount = data[15].trim();
                 // Insert data into database
                 dbHelper.insertData(nrc, fullname, customerNumber, phoneNumber,
-                        institution, accountNumber, district, status);
+                        institution, accountNumber, district, accountBalance, user,
+                        image, nrcFront, nrcBack, status, terminalId, dateTime, amount);
             }
+
 
             // Close the reader
             reader.close();

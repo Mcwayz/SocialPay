@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -112,8 +113,7 @@ public class TransactActivity extends AppCompatActivity {
 
     // Save / Update DB
 
-    private void SaveTransaction(){
-
+    private void SaveTransaction(String NRC, String Fullname, String Status, String Account, String Phone, String District, String SerialNumber, String Amount){
 
     }
 
@@ -302,7 +302,9 @@ public class TransactActivity extends AppCompatActivity {
     }
 
     private void goBack(){
-
+        Intent i = new Intent(TransactActivity.this, HistoryActivity.class);
+        startActivity(i);
+        finish();
     }
 
 

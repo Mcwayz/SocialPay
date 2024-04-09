@@ -1,5 +1,7 @@
 package com.example.socialct.Activity;
 
+import static com.example.socialct.Database.DatabaseHelper.COLUMN_NRC_BACK;
+import static com.example.socialct.Database.DatabaseHelper.COLUMN_NRC_FRONT;
 import static com.example.socialct.Database.DatabaseHelper.COLUMN_STATUS;
 import static com.example.socialct.Database.DatabaseHelper.COLUMN_ACCOUNT_NUMBER;
 import static com.example.socialct.Database.DatabaseHelper.COLUMN_CUSTOMER_NUMBER;
@@ -35,7 +37,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
     private RecyclerView recyclerView;
     private CustomAdapter customAdapter;
 
-    private ArrayList<String> tvNRC, tvFullname, tvStatus, tvAccount, tvPhone, tvDistrict;
+    private ArrayList<String> tvNRC, tvFullname, tvStatus, tvAccount, tvPhone, tvDistrict, tvNRC_Frt, tvNRC_Bck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,8 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
         tvAccount = new ArrayList<>();
         tvPhone = new ArrayList<>();
         tvDistrict = new ArrayList<>();
-
+        tvNRC_Frt = new ArrayList<>();
+        tvNRC_Bck = new ArrayList<>();
         // Initialize RecyclerView
         search = findViewById(R.id.btn_filter);
         imgBack = findViewById(R.id.img_back_his);
@@ -82,6 +85,8 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
             tvAccount = new ArrayList<>();
             tvPhone = new ArrayList<>();
             tvDistrict = new ArrayList<>();
+            tvNRC_Frt = new ArrayList<>();
+            tvNRC_Bck = new ArrayList<>();
 
             for (MyRecord record : approvedRecords) {
                 tvNRC.add(record.getNrc());
@@ -90,6 +95,8 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
                 tvAccount.add(record.getAccountNumber());
                 tvPhone.add(record.getPhoneNumber());
                 tvDistrict.add(record.getDistrict());
+                tvNRC_Frt.add(record.getNrc_front());
+                tvNRC_Bck.add(record.getNrc_back());
             }
 
             customAdapter = new CustomAdapter(this, tvNRC, tvFullname, tvStatus, tvAccount, tvPhone, tvDistrict, this);
@@ -109,6 +116,8 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
         intent.putExtra("account", tvAccount.get(position));
         intent.putExtra("phone", tvPhone.get(position));
         intent.putExtra("district", tvDistrict.get(position));
+        intent.putExtra("nrc_front", tvNRC_Frt.get(position));
+        intent.putExtra("nrc_back", tvNRC_Bck.get(position));
         startActivity(intent);
         finish();
     }
@@ -144,7 +153,12 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
                 String district = (columnIndexDistrict != -1) ? cursor.getString(columnIndexDistrict) : null;
                 int columnIndexStatus = cursor.getColumnIndex(COLUMN_STATUS);
                 String status = (columnIndexStatus != -1) ? cursor.getString(columnIndexStatus) : null;
-                MyRecord record = new MyRecord(recordNrc, fullName, customerNumber, phoneNumber, institution, accountNumber, district, status);
+
+                int columnIndexNRCBack = cursor.getColumnIndex(COLUMN_NRC_BACK);
+                String nrc_back = (columnIndexNRCBack != -1) ? cursor.getString(columnIndexNRCBack) : null;
+                int columnIndexNRCFront = cursor.getColumnIndex(COLUMN_NRC_FRONT);
+                String nrc_front = (columnIndexNRCFront != -1) ? cursor.getString(columnIndexNRCFront) : null;
+                MyRecord record = new MyRecord(recordNrc, fullName, customerNumber, phoneNumber, institution, accountNumber, district, status, nrc_back, nrc_front);
                 searchResults.add(record);
             } while (cursor.moveToNext());
             cursor.close();
@@ -156,6 +170,8 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
             tvAccount.clear();
             tvPhone.clear();
             tvDistrict.clear();
+            tvNRC_Bck.clear();
+            tvNRC_Frt.clear();
 
             // Populate arrays with search results
             for (MyRecord record : searchResults) {
@@ -165,6 +181,8 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewIn
                 tvAccount.add(record.getAccountNumber());
                 tvPhone.add(record.getPhoneNumber());
                 tvDistrict.add(record.getDistrict());
+                tvNRC_Bck.add(record.getNrc_back());
+                tvNRC_Frt.add(record.getNrc_front());
             }
 
             // Notify adapter about the data change
