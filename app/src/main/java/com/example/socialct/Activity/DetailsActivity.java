@@ -60,12 +60,12 @@ public class DetailsActivity extends AppCompatActivity {
             // String nrc = tvNRC.getText().toString().trim();
             // boolean isUpdated = dbHelper.updateStatusToPaid(nrc);
             Intent intent = new Intent(DetailsActivity.this, TransactActivity.class);
-            intent.putExtra("nrc", tvNRC.getText());
-            intent.putExtra("fullname", tvFullname.getText());
-            intent.putExtra("status", tvStatus.getText());
-            intent.putExtra("account", tvAccount.getText());
-            intent.putExtra("phone", tvPhone.getText());
-            intent.putExtra("district", tvDistrict.getText());
+            intent.putExtra("nrc", NRC);
+            intent.putExtra("fullname", Fullname);
+            intent.putExtra("status", Status);
+            intent.putExtra("account", Account);
+            intent.putExtra("phone", Phone);
+            intent.putExtra("district", District);
             intent.putExtra("account_balance", AccountBalance);
             startActivity(intent);
             finish();

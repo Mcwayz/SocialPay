@@ -120,23 +120,31 @@ public class TransactActivity extends AppCompatActivity {
     }
 
     // Save and Update DB
-    private void SaveTransaction(String NRC, String Amount, String TerminalID){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        String dateTime = dateFormat.format(new Date());
-        String Username = "Mcwayz";
-        double withdraw =  Double.parseDouble(Amount);
-        boolean isUpdated = Dbhelper.updateTransactionDetails(NRC, withdraw, dateTime, Username, TerminalID);
-        if (isUpdated) {
-            printReceipt("<Customer Copy>");
-            // Add a 3-second delay before printing the agent copy
-            handler.postDelayed(() -> printReceipt("<Agent Copy>"), 3000);
-            Toast.makeText(this, "Transaction Details Updated Successfully", Toast.LENGTH_SHORT).show();
-            goBack();
+    private void SaveTransaction(String NRC_String, String Amount, String TerminalID){
+        if (NRC != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            String dateTime = dateFormat.format(new Date());
+            String Username = "Mcwayz";
+            NRC_String = NRC;
+            double withdraw =  Double.parseDouble(Amount);
+            boolean isUpdated = Dbhelper.updateTransactionDetails(NRC_String, withdraw, dateTime, Username, TerminalID);
+            if (isUpdated) {
+                printReceipt("<Customer Copy>");
+                // Add a 3-second delay before printing the agent copy
+                handler.postDelayed(() -> printReceipt("<Agent Copy>"), 3000);
+                Toast.makeText(this, "Transaction Details Updated Successfully", Toast.LENGTH_SHORT).show();
+                goBack();
+            } else {
+                Toast.makeText(this, "Failed to update transaction details", Toast.LENGTH_SHORT).show();
+                goBack();
+            }
         } else {
-            Toast.makeText(this, "Failed to update transaction details", Toast.LENGTH_SHORT).show();
+            // Handle the case when NRC is null
+            Toast.makeText(this, "NRC is null", Toast.LENGTH_SHORT).show();
             goBack();
         }
     }
+
 
     // Print Receipt
     private void printReceipt(String copy) {
@@ -182,9 +190,9 @@ public class TransactActivity extends AppCompatActivity {
             System.out.println("IsHavePaper = true\n");
 
             printer.setAlignStyle(PRINT_STYLE_CENTER);
-            Bitmap originalBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.profile);
-            int desiredWidth = 200;
-            int desiredHeight = 163;
+            Bitmap originalBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.zicb2);
+            int desiredWidth = 207;
+            int desiredHeight = 65;
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, desiredWidth, desiredHeight, false);
             printer.printBmp(resizedBitmap);
             printer.printStr("\n");

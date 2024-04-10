@@ -169,12 +169,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double accountBalance = cursor.getDouble(accountBalanceIndex);
                 cursor.close();
                 if (accountBalance >= withdrawAmount) {
+                    // Subtract the withdrawAmount from the accountBalance
+                    double updatedBalance = accountBalance - withdrawAmount;
+
                     ContentValues values = new ContentValues();
                     values.put(COLUMN_STATUS, "Withdrawal");
                     values.put(COLUMN_WITHDRAW, withdrawAmount);
                     values.put(COLUMN_DATE_ID, dateTime);
                     values.put(COLUMN_USER, username);
                     values.put(COLUMN_TERMINAL_ID, terminalID);
+                    values.put(COLUMN_ACCOUNT_BALANCE, updatedBalance); // Update the account balance
                     int rowsAffected = db.update(TABLE_NAME, values, COLUMN_NRC + " = ?", new String[]{nrc});
                     db.close();
                     return rowsAffected > 0;
@@ -195,6 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
 
 
 
