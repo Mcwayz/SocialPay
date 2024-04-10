@@ -2,10 +2,11 @@
     <string name="app_name">SocialCT</string>
     <string name="import_file">Import File</string>
     <string name="select_text_file">Select Text File</string>
-    <string name="facilitate_payments">Import The Text File To Facilitate Payments</string>
+    <string name="facilitate_payments">Enter The Amount To Be Withdraw By Customer</string>
     <string name="search_by_nrc">Search By NRC...</string>
     <string name="search">Search</string>
     <string name="import_text">Import File</string>
     <string name="approved_list">Imported List</string>
     <string name="filter_by_date">Filter By Date</string>
+    <string name="complete_transaction">Complete Transaction</string>
 </resources>

@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_wb"
-            android:text="Tuesday, February 28th"
+            android:text="Sunday, April 07th"
             android:textColor="@color/white"
             android:textAlignment="center"
             android:layout_marginLeft="30dp"
@@ -173,7 +173,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View List"
+                        android:text="Process Payment"
                         android:textAlignment="center"
                         android:textColor="@color/blue"
                         android:textStyle="bold"
