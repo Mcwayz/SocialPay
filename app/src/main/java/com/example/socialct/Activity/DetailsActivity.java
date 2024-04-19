@@ -57,8 +57,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         btn_verify.setOnClickListener(view -> {
             // Update Function
-            // String nrc = tvNRC.getText().toString().trim();
-            // boolean isUpdated = dbHelper.updateStatusToPaid(nrc);
             Intent intent = new Intent(DetailsActivity.this, TransactActivity.class);
             intent.putExtra("nrc", tvNRC.getText());
             intent.putExtra("fullname", tvFullname.getText());

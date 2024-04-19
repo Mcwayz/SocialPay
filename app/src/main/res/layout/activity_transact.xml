@@ -9,8 +9,6 @@
     android:orientation="vertical"
     android:background="@drawable/bg">
 
-
-
     <RelativeLayout
         android:id="@+id/profile"
         android:layout_width="match_parent"
