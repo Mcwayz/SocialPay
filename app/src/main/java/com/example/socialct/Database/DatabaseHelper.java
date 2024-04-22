@@ -58,8 +58,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_DATE_ID + " TEXT," +
                     COLUMN_WITHDRAW + " REAL DEFAULT 0" +
                     ");";
-;
-
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
